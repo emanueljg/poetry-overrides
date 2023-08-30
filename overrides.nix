@@ -1,17 +1,49 @@
-{ pkgs }: pkgs.poetry2nix.defaultPoetryOverrides.extend (self: super: let
+{
+  poetry2nix,
+  maturin,
+  rustPlatform,
+  fetchFromGitHub,
+}:
+poetry2nix.defaultPoetryOverrides.extend (
+  self: super: let
+    extraBuildInputs = with super; {
+      taskipy = [poetry];
+      pytest-base-url = [poetry setuptools];
+      pytest-playwright = [setuptools setuptools-scm];
+      urllib3 = [hatchling];
+      annotated-types = [hatchling];
+      pycparser = [maturin];
+      pydantic = [hatchling hatch-fancy-pypi-readme];
+    };
+  in
+    (builtins.mapAttrs
+      (
+        packageName: buildInputs:
+          super.${packageName}.overridePythonAttrs (old: {
+            buildInputs = (old.buildInputs or []) ++ buildInputs;
+          })
+      )
+      extraBuildInputs)
+    // {
+      pydantic-core = with rustPlatform;
+        super.pydantic-core.overridePythonAttrs (old: rec {
+          src = fetchFromGitHub {
+            owner = "pydantic";
+            repo = "pydantic-core";
+            rev = "v${old.version}";
+            sha256 = "sha256-bEVACTlzELXPoCtEHMR1s87KJn/qnE0lO1O4RmdjmPM=";
+          };
 
-  extraBuildInputs = with super; {
-    taskipy = [ poetry ];
-    pytest-base-url = [ poetry setuptools ];
-    pytest-playwright = [ setuptools setuptools-scm ];
-    urllib3 = [ hatchling ];
-  };
+          cargoDeps = importCargoLock {
+            lockFile = "${src}/Cargo.lock";
+          };
 
-in builtins.mapAttrs 
-  (packageName: buildInputs: 
-    super.${packageName}.overridePythonAttrs (old: {
-      buildInputs = (old.buildInputs or [ ]) ++ buildInputs;
-    })
-  )
-  extraBuildInputs
+          nativeBuildInputs =
+            (old.nativeBuildInputs or [])
+            ++ [
+              cargoSetupHook
+              maturinBuildHook
+            ];
+        });
+    }
 )
