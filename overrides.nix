@@ -15,6 +15,8 @@ poetry2nix.defaultPoetryOverrides.extend (
       pycparser = [maturin];
       pydantic = [hatchling hatch-fancy-pypi-readme];
       fastapi-crudrouter = [setuptools];
+      sqlalchemy-database = [flit-core];
+      fastapi-sqlmodel-crud = [flit-core];
     };
   in
     (builtins.mapAttrs
