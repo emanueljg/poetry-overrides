@@ -14,6 +14,7 @@ poetry2nix.defaultPoetryOverrides.extend (
       annotated-types = [hatchling];
       pycparser = [maturin];
       pydantic = [hatchling hatch-fancy-pypi-readme];
+      fastapi-crudrouter = [setuptools];
     };
   in
     (builtins.mapAttrs
