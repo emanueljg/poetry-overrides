@@ -19,7 +19,7 @@ poetry2nix.defaultPoetryOverrides.extend (
       fastapi-sqlmodel-crud = [flit-core];
       fastapi-amis-admin = [flit-core];
       aiofiles = [hatchling];
-      httpcore = [hatchling];
+      httpcore = [hatchling hatch-fancy-pypi-readme];
       sqlalchemy = [hatchling hatch-fancy-pypi-readme];
     };
   in
