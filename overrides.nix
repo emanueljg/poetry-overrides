@@ -20,7 +20,7 @@ poetry2nix.defaultPoetryOverrides.extend (
       fastapi-amis-admin = [flit-core];
       aiofiles = [hatchling];
       httpcore = [hatchling];
-      sqlalchemy = [hatchling];
+      sqlalchemy = [hatchling hatch-fancy-pypi-readme];
     };
   in
     (builtins.mapAttrs
