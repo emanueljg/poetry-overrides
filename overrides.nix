@@ -17,6 +17,9 @@ poetry2nix.defaultPoetryOverrides.extend (
       fastapi-crudrouter = [setuptools];
       sqlalchemy-database = [flit-core];
       fastapi-sqlmodel-crud = [flit-core];
+      fastapi-amis-admin = [flit-core];
+      aiofiles = [hatchling];
+      httpcore = [hatchling];
     };
   in
     (builtins.mapAttrs
