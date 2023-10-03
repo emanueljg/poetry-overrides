@@ -4,7 +4,7 @@
   rustPlatform,
   fetchFromGitHub
 }:
-poetry2nix.defaultPoetryOverides.extend (
+poetry2nix.defaultPoetryOverrides.extend (
   self: super: let
     extraBuildInputs = with super; {
       # taskipy = [poetry];
@@ -32,6 +32,7 @@ poetry2nix.defaultPoetryOverides.extend (
       )
       extraBuildInputs)
     // {
+      cryptography = super.cryptography.override { preferWheel = true; };
       pydantic-core = with rustPlatform;
         super.pydantic-core.overridePythonAttrs (old: rec {
           src = fetchFromGitHub {
