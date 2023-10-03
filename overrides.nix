@@ -8,13 +8,15 @@
   (self: super: let
     wheelPkgs = [
       "cryptography"
+      "pydantic-core"
+      "ruff"
     ];
     in lib.genAttrs wheelPkgs (name: super.${name}.override { preferWheel = true; })) 
   (poetry2nix.defaultPoetryOverrides.extend (
     self: super: let
       extraBuildInputs = with super; {
-        # taskipy = [poetry];
-        # pytest-base-url = [poetry setuptools];
+        taskipy = [poetry];
+        pytest-base-url = [poetry setuptools];
         pytest-playwright = [setuptools setuptools-scm];
         urllib3 = [hatchling];
         annotated-types = [hatchling];
