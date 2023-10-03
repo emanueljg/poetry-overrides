@@ -3,7 +3,10 @@
   maturin,
   rustPlatform,
   fetchFromGitHub
-}:
+}: [
+  (self: super: {
+    cryptography = super.cryptography.override { preferWheel = true; };
+  })
 poetry2nix.defaultPoetryOverrides.extend (
   self: super: let
     extraBuildInputs = with super; {
@@ -32,7 +35,6 @@ poetry2nix.defaultPoetryOverrides.extend (
       )
       extraBuildInputs)
     // {
-      cryptography = super.cryptography.override { preferWheel = true; };
       pydantic-core = with rustPlatform;
         super.pydantic-core.overridePythonAttrs (old: rec {
           src = fetchFromGitHub {
@@ -82,4 +84,4 @@ poetry2nix.defaultPoetryOverrides.extend (
             ];
         });
     }
-)
+)]
