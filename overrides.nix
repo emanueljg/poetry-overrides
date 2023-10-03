@@ -7,7 +7,7 @@
   (self: super: {
     cryptography = super.cryptography.override { preferWheel = true; };
   })
-poetry2nix.defaultPoetryOverrides.extend (
+(poetry2nix.defaultPoetryOverrides.extend (
   self: super: let
     extraBuildInputs = with super; {
       # taskipy = [poetry];
@@ -84,4 +84,4 @@ poetry2nix.defaultPoetryOverrides.extend (
             ];
         });
     }
-)]
+))]
