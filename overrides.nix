@@ -2,10 +2,9 @@
   poetry2nix,
   maturin,
   rustPlatform,
-  fetchFromGitHub,
-  override ? poetry2nix.defaultPoetryOverrides,
+  fetchFromGitHub
 }:
-override.extend (
+poetry2nix.defaultPoetryOverides.extend (
   self: super: let
     extraBuildInputs = with super; {
       # taskipy = [poetry];
