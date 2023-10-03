@@ -4,7 +4,7 @@
   rustPlatform,
   fetchFromGitHub,
   lib,
-}:
+}: [
   (self: super: let
     wheelPkgs = [
       "cryptography"
